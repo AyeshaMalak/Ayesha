@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Formal Web Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .header {
+            background-color: #1e3d59;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            flex: 1;
+            margin: 5px;
+            padding: 15px;
+            text-align: center;
+            background-color: #3d5a80;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background-color: #293241;
+        }
+
+        .form {
+            display: none;
+        }
+
+        .form.active {
+            display: block;
+        }
+
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #3d5a80;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #293241;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f0f0f0;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eaeaea;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">BOARD OF INTERMEDIATE EDUCATION </div>
+    <div class="container">
+        <div class="options">
+            <a href="#" class="option" onclick="showForm('entry-form')">Entry Form</a>
+            <a href="#" class="option" onclick="showForm('fee-voucher')">Fee Voucher</a>
+            <a href="#" class="option" onclick="showForm('news-updates')">News Updates</a>
+            <a href="#" class="option" onclick="showForm('result')">Result</a>
+            <a href="#" class="option" onclick="showForm('mark-sheet')">Mark Sheet</a>
+        </div>
+
+        <!-- Entry Form -->
+        <div id="entry-form" class="form">
+            <h3>Entry Form</h3>
+            <form onsubmit="handleSubmit(event)">
+                <input type="text" placeholder="Enter your name" required>
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <!-- Fee Voucher Generator -->
+        <div id="fee-voucher" class="form">
+            <h3>Fee Voucher Generator</h3>
+            <input type="text" id="studentName" placeholder="Enter Student Name" required>
+            <input type="text" id="fatherName" placeholder="Enter Father's Name" required>
+            <input type="text" id="institution" placeholder="Enter Institution Name" required>
+            <input type="text" id="grNumber" placeholder="Enter GR Number" required>
+            <button onclick="generateFeeVoucher()">Generate Voucher</button>
+            <div class="output" id="voucherOutput" style="display: none;">
+                <table>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Father's Name</th>
+                        <th>Institution</th>
+                        <th>GR Number</th>
+                    </tr>
+                    <tr>
+                        <td id="voucherName"></td>
+                        <td id="voucherFather"></td>
+                        <td id="voucherInstitution"></td>
+                        <td id="voucherGR"></td>
+                    </tr>
+                </table>
+                <button onclick="payFee()">Pay Fee</button>
+                <button onclick="window.print()">Print</button>
+            </div>
+        </div>
+
+        <!-- News Updates -->
+        <div id="news-updates" class="form">
+            <h3>News Updates</h3>
+            <input type="text" id="newsQuestion" placeholder="Ask a question about events" required>
+            <button onclick="answerQuestion()">Submit</button>
+        </div>
+
+        <!-- Result -->
+        <div id="result" class="form">
+            <h3>Result</h3>
+            <input type="text" id="rollNumber" placeholder="Enter Roll Number" required>
+            <button onclick="showResult()">Check Result</button>
+        </div>
+
+        <!-- Mark Sheet -->
+        <div id="mark-sheet" class="form">
+            <h3>Mark Sheet</h3>
+            <input type="text" id="markSheetName" placeholder="Enter Student Name" required>
+            <input type="text" id="markSheetRoll" placeholder="Enter Roll Number" required>
+            <button onclick="generateMarkSheet()">Get Mark Sheet</button>
+            <div class="output" id="markSheetOutput" style="display: none;">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Roll Number</th>
+                        <th>Percentage</th>
+                        <th>Grade</th>
+                    </tr>
+                    <tr>
+                        <td id="markSheetNameOutput"></td>
+                        <td id="markSheetRollOutput"></td>
+                        <td id="markSheetPercentage"></td>
+                        <td id="markSheetGrade"></td>
+                    </tr>
+                </table>
+                <button onclick="window.print()">Print</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                title: 'Welcome to BIEK',
+                text: 'We are here to provide you with all the assistance you need. Simply click on the buttons to access the required services.',
+                icon: 'info',
+                confirmButtonText: 'Get Started'
+            });
+        });
+        function showForm(formId) {
+            const forms = document.querySelectorAll('.form');
+            forms.forEach(form => form.classList.remove('active'));
+            document.getElementById(formId).classList.add('active');
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Success!',
+                text: 'Your response has been recorded.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        }
+
+        function generateFeeVoucher() {
+            const name = document.getElementById('studentName').value;
+            const fatherName = document.getElementById('fatherName').value;
+            const institution = document.getElementById('institution').value;
+            const grNumber = document.getElementById('grNumber').value;
+
+            document.getElementById('voucherName').innerText = name;
+            document.getElementById('voucherFather').innerText = fatherName;
+            document.getElementById('voucherInstitution').innerText = institution;
+            document.getElementById('voucherGR').innerText = grNumber;
+
+            document.getElementById('voucherOutput').style.display = 'block';
+        }
+
+        function payFee() {
+            Swal.fire({
+                title: 'Fee Payment',
+                text: 'You have successfully paid the fees!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        }
+
+        function answerQuestion() {
+            const question = document.getElementById('newsQuestion').value.toLowerCase();
+            let answer = 'No information available.';
+            if (question.includes('paper')) {
+                answer = 'The papers will start on December 10th.';
+            } else if (question.includes('result')) {
+                answer = 'The results will be announced on December 20th.';
+            } else if (question.includes('event')) {
+                answer = 'The annual event is scheduled for January 5th.';
+            }
+
+            Swal.fire({
+                title: 'Answer',
+                text: answer,
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+        }
+
+        function showResult() {
+            const rollNumber = document.getElementById('rollNumber').value;
+            Swal.fire({
+                title: 'Result',
+                text: `The result for Roll Number ${rollNumber} is 85% (Grade A).`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        }
+
+        function generateMarkSheet() {
+            const name = document.getElementById('markSheetName').value;
+            const rollNumber = document.getElementById('markSheetRoll').value;
+
+            document.getElementById('markSheetNameOutput').innerText = name;
+            document.getElementById('markSheetRollOutput').innerText = rollNumber;
+            document.getElementById('markSheetPercentage').innerText = '85%';
+            document.getElementById('markSheetGrade').innerText = 'A';
+
+            document.getElementById('markSheetOutput').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
