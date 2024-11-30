@@ -11,26 +11,23 @@
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
-
         }
 
         .header {
             background-color: #fff;
             color: #3c763d;
             padding: 20px;
-            padding-right: 10rem;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2em;
             font-weight: bold;
-                }
+        }
 
         .header img {
-            max-width: 98%; 
-            height: auto;    
-            padding-left: 0;
-            margin-right: 20px; 
+            max-width: 90px;
+            height: auto;
+            margin-right: 20px;
         }
 
         .container {
@@ -45,12 +42,15 @@
         .options {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
         .option {
             flex: 1;
+            min-width: 120px;
+            max-width: 180px;
             margin: 5px;
             padding: 15px;
             text-align: center;
@@ -64,7 +64,7 @@
         }
 
         .option:hover {
-            background-color:#9ac29b;
+            background-color: #9ac29b;
         }
 
         .form {
@@ -82,7 +82,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-     
+
         button {
             background-color: #3c763d;
             color: #fff;
@@ -92,7 +92,7 @@
         }
 
         button:hover {
-            background-color: #3c763d;
+            background-color: #276a3c;
         }
 
         table {
@@ -118,22 +118,47 @@
             border-radius: 5px;
         }
 
-        /* Media Queries for Responsive Design */
         @media (max-width: 768px) {
             .header {
-                font-size: 1.5em;
-                flex-direction: column; /* Stack logo and text vertically */
-                padding-right: 2rem;
+                flex-direction: column;
                 text-align: center;
+                font-size: 1.5em;
+            }
+
+            .header img {
+                margin-bottom: 10px;
+            }
+
+            .container {
+                padding: 15px;
             }
 
             .options {
                 flex-direction: column;
+                align-items: center;
             }
 
             .option {
-                width: 100%;
-                margin-bottom: 10px;
+                max-width: 100%;
+            }
+
+            input, button {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                font-size: 1.2em;
+            }
+
+            .option {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            input, button {
+                font-size: 0.9em;
             }
         }
     </style>
@@ -257,78 +282,81 @@
 
         function handleSubmit(event) {
             event.preventDefault();
-            Swal.fire({
-                title: 'Success!',
-                text: 'Your response has been recorded.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
+            Swal.fire('Form Submitted!', 'Your entry form has been successfully submitted.', 'success');
         }
 
         function generateFeeVoucher() {
             const name = document.getElementById('studentName').value;
-            const fatherName = document.getElementById('fatherName').value;
+            const father = document.getElementById('fatherName').value;
             const institution = document.getElementById('institution').value;
-            const grNumber = document.getElementById('grNumber').value;
-            const feeAmount = document.getElementById('feeAmount').value;
+            const gr = document.getElementById('grNumber').value;
+            const fee = document.getElementById('feeAmount').value;
 
-            document.getElementById('voucherName').innerText = name;
-            document.getElementById('voucherFather').innerText = fatherName;
-            document.getElementById('voucherInstitution').innerText = institution;
-            document.getElementById('voucherGR').innerText = grNumber;
-            document.getElementById('voucherAmount').innerText = `₹${feeAmount}`;
+            if (name && father && institution && gr && fee) {
+                document.getElementById('voucherName').textContent = name;
+                document.getElementById('voucherFather').textContent = father;
+                document.getElementById('voucherInstitution').textContent = institution;
+                document.getElementById('voucherGR').textContent = gr;
+                document.getElementById('voucherAmount').textContent = fee;
 
-            document.getElementById('voucherOutput').style.display = 'block';
+                document.getElementById('voucherOutput').style.display = 'block';
+            } else {
+                Swal.fire('Error', 'Please fill in all fields before generating the voucher.', 'error');
+            }
         }
 
         function payFee() {
-            Swal.fire({
-                title: 'Fee Payment',
-                text: 'You have successfully paid the fees!',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
+            Swal.fire('Payment Successful', 'Your fee payment has been recorded.', 'success');
         }
 
         function answerQuestion() {
             const question = document.getElementById('newsQuestion').value.toLowerCase();
-            let answer = 'No information available.';
+            let answer;
+
             if (question.includes('paper')) {
-                answer = 'The papers will start on December 10th.';
+                answer = 'Upcoming papers will be announced on our website.';
             } else if (question.includes('result')) {
-                answer = 'The results will be announced on December 20th.';
+                answer = 'Results will be published next week.';
             } else if (question.includes('event')) {
-                answer = 'The annual event is scheduled for January 5th.';
+                answer = 'Stay tuned for event updates on our social media.';
+            } else {
+                answer = 'Sorry, we do not have information about that.';
             }
 
-            Swal.fire({
-                title: 'Answer',
-                text: answer,
-                icon: 'info',
-                confirmButtonText: 'OK'
-            });
+            Swal.fire('News Update', answer, 'info');
         }
 
         function showResult() {
             const rollNumber = document.getElementById('rollNumber').value;
-            Swal.fire({
-                title: 'Result',
-                text: `The result for Roll Number ${rollNumber} is 85% (Grade A).`,
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
+
+            if (rollNumber) {
+                Swal.fire('Result', `The result for roll number ${rollNumber} will be displayed soon.`, 'info');
+            } else {
+                Swal.fire('Error', 'Please enter a valid roll number.', 'error');
+            }
         }
 
         function generateMarkSheet() {
             const name = document.getElementById('markSheetName').value;
-            const rollNumber = document.getElementById('markSheetRoll').value;
+            const roll = document.getElementById('markSheetRoll').value;
 
-            document.getElementById('markSheetNameOutput').innerText = name;
-            document.getElementById('markSheetRollOutput').innerText = rollNumber;
-            document.getElementById('markSheetPercentage').innerText = '85%';
-            document.getElementById('markSheetGrade').innerText = 'A';
+            if (name && roll) {
+                const percentage = Math.floor(Math.random() * 101); // Random percentage
+                const grade = percentage >= 90 ? 'A+' :
+                              percentage >= 80 ? 'A' :
+                              percentage >= 70 ? 'B' :
+                              percentage >= 60 ? 'C' :
+                              percentage >= 50 ? 'D' : 'F';
 
-            document.getElementById('markSheetOutput').style.display = 'block';
+                document.getElementById('markSheetNameOutput').textContent = name;
+                document.getElementById('markSheetRollOutput').textContent = roll;
+                document.getElementById('markSheetPercentage').textContent = `${percentage}%`;
+                document.getElementById('markSheetGrade').textContent = grade;
+
+                document.getElementById('markSheetOutput').style.display = 'block';
+            } else {
+                Swal.fire('Error', 'Please fill in all fields to generate the mark sheet.', 'error');
+            }
         }
     </script>
 </body>
