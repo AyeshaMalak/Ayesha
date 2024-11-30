@@ -11,15 +11,26 @@
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
+
         }
 
         .header {
-            background-color: #1e3d59;
-            color: #fff;
+            background-color: #fff;
+            color: #3c763d;
             padding: 20px;
-            text-align: center;
+            padding-right: 10rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 2em;
             font-weight: bold;
+                }
+
+        .header img {
+            max-width: 98%; 
+            height: auto;    
+            padding-left: 0;
+            margin-right: 20px; 
         }
 
         .container {
@@ -43,7 +54,7 @@
             margin: 5px;
             padding: 15px;
             text-align: center;
-            background-color: #3d5a80;
+            background-color: #3c763d;
             color: #fff;
             border-radius: 5px;
             cursor: pointer;
@@ -53,7 +64,7 @@
         }
 
         .option:hover {
-            background-color: #293241;
+            background-color:#9ac29b;
         }
 
         .form {
@@ -71,9 +82,9 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-
+     
         button {
-            background-color: #3d5a80;
+            background-color: #3c763d;
             color: #fff;
             border: none;
             cursor: pointer;
@@ -81,7 +92,7 @@
         }
 
         button:hover {
-            background-color: #293241;
+            background-color: #3c763d;
         }
 
         table {
@@ -106,10 +117,33 @@
             background-color: #eaeaea;
             border-radius: 5px;
         }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                font-size: 1.5em;
+                flex-direction: column; /* Stack logo and text vertically */
+                padding-right: 2rem;
+                text-align: center;
+            }
+
+            .options {
+                flex-direction: column;
+            }
+
+            .option {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="header">BOARD OF INTERMEDIATE EDUCATION </div>
+    <div class="header">
+        <img src="biek-logo-removebg-preview (1).png" alt="BIEK Logo"> 
+        WELCOME TO BIEK
+    </div>
+
     <div class="container">
         <div class="options">
             <a href="#" class="option" onclick="showForm('entry-form')">Entry Form</a>
@@ -125,6 +159,10 @@
             <form onsubmit="handleSubmit(event)">
                 <input type="text" placeholder="Enter your name" required>
                 <input type="email" placeholder="Enter your email" required>
+                <input type="text" placeholder="Enter your phone number" required>
+                <input type="text" placeholder="Enter your address" required>
+                <input type="text" placeholder="Enter your city" required>
+                <input type="text" placeholder="Enter your country" required>
                 <button type="submit">Submit</button>
             </form>
         </div>
@@ -136,6 +174,7 @@
             <input type="text" id="fatherName" placeholder="Enter Father's Name" required>
             <input type="text" id="institution" placeholder="Enter Institution Name" required>
             <input type="text" id="grNumber" placeholder="Enter GR Number" required>
+            <input type="number" id="feeAmount" placeholder="Enter Fee Amount" required>
             <button onclick="generateFeeVoucher()">Generate Voucher</button>
             <div class="output" id="voucherOutput" style="display: none;">
                 <table>
@@ -144,12 +183,14 @@
                         <th>Father's Name</th>
                         <th>Institution</th>
                         <th>GR Number</th>
+                        <th>Fee Amount</th>
                     </tr>
                     <tr>
                         <td id="voucherName"></td>
                         <td id="voucherFather"></td>
                         <td id="voucherInstitution"></td>
                         <td id="voucherGR"></td>
+                        <td id="voucherAmount"></td>
                     </tr>
                 </table>
                 <button onclick="payFee()">Pay Fee</button>
@@ -199,7 +240,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
             Swal.fire({
                 title: 'Welcome to BIEK',
                 text: 'We are here to provide you with all the assistance you need. Simply click on the buttons to access the required services.',
@@ -207,6 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 confirmButtonText: 'Get Started'
             });
         });
+
         function showForm(formId) {
             const forms = document.querySelectorAll('.form');
             forms.forEach(form => form.classList.remove('active'));
@@ -228,11 +270,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const fatherName = document.getElementById('fatherName').value;
             const institution = document.getElementById('institution').value;
             const grNumber = document.getElementById('grNumber').value;
+            const feeAmount = document.getElementById('feeAmount').value;
 
             document.getElementById('voucherName').innerText = name;
             document.getElementById('voucherFather').innerText = fatherName;
             document.getElementById('voucherInstitution').innerText = institution;
             document.getElementById('voucherGR').innerText = grNumber;
+            document.getElementById('voucherAmount').innerText = `₹${feeAmount}`;
 
             document.getElementById('voucherOutput').style.display = 'block';
         }
